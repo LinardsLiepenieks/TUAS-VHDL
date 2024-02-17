@@ -1,0 +1,66 @@
+1.)
+ja and jb max values are 255 as they have 8bits (FF in hexadecimal)
+int_a does not have a specified range so its value is the max int value
+(32bit int max value is 2,147,483,647)
+int_b max value is 31 (decimal) because we set the range from 0 to 31
+2.)
+For int_a there are 32 registers
+for int_b there are 5 registers
+3.)
+There are 32 registers because there are 32bits in int_a (range unspecified)
+There are 5 registers in int_b because max value is 31
+4.)
+After rangecheck is checked the simulation stops at 31 because there is a set max value
+5.)
+In utilization report there are 4 LUT's and 13 FlipFlops
+6.)
+Essentially synthesis tool optimizes the design thats why there are less fliplops - for example if there are unused signals synthesis might optimize them out
+7.) In the schematic there are only 5 registers for int_b - my guess would be that the other ones are optimized out as int_b does the same thing as int_a which leaves us with only the registers of int_b
+8.)
+jb max value is 1f or 31 because int_b wraps around 31
+ja max value stays the same as before 255(decimal) or FF (hexadecimal)
+9.) 
+No, resources did not change - 4 LUTS and 13 Registers
+10.)
+ja max is 255 or ff
+jb max is 31 or 1f
+It does not meet expectations because jb does not wrap around 25 the variable int_b is correctly constrained but jb is not as it is an unsigned binary value.
+11)
+Everything works as expected jb wraps around at 25
+12) 25
+13)
+New components appeared in the schematics - RTL_LT (Register Transfer Level_Less Than) represents the condition that we wrote to wrap int_b at 25
+14) One more LUT appeared (before 4 now 5) - it is not surprising as conditional statements can increase resource usage and thus more LUTS are needed.
+15)
+Yes the result is expected (Same resources as before) - It is because 25 can be represented using 5 bits but not 4 - thats why register amount did not decrease
+2^5 = 32    32>25
+2^4 = 16    16<25
+16)
+There are 8 registers in total (7 to 0)
+registers increased because the signal width increased
+0 to 31 can be represented using 5 bits 2^5 = 32
+Thats why before there were only 5 registers but now we need 8
+2^8 = 256
+17) 
+The registers and LUTS stayed the same (5 and 13) - this could be because the synthesis tool detects that even though signal width is set to 255 it is never used so to conserve resources it allocates resources only to the part which will be used (25)
+18)
+Yes it is - the implementation place utilization matches with synthesised desgin so timing and other requirements were fulfilled.
+19) Timing requirements - T = 8ns f = 125MHz
+20)
+set-up time margin - worst negative slack 5.8ns
+Yes with 250MHz requirements are still met set-up time margin is now 1.8ns
+
+Measurements:
+ja LSB = 62.5MHz
+ja MSB = 488.4KHz
+ja MSB pulse ratio = 50.06%
+
+jb MSB is bit 4 (index 3) f=4.8MHz
+jb MSB pulse ratio positive duty cycle = 40% to 41%
+
+Q19: Nyquist theorem states that the sample rate frequency must be twice as high as the largest measurement - hence 62.5Mhz*2=125Mhz
+Sysclock frequency is 125Mhz
+Q20: MSB jb (bit 4, index 3) has pulse ratio of only 40% because it is only used 40% of the time: int_b wraps around at 25 - from 0 to 15 bit 4 is not used
+bit 4 is used from 16 to 25 (10 numbers)
+10/25 * 100% = 40%
+

@@ -1,0 +1,5 @@
+1.) The design uses 5 Lookup tables.
+2.) In the utilization report it says that there are 0 registers
+3.) I/O count is 14 - the same as in the code. 2 for button + 2 for switch + 4 for led + 3 for RGBLed4 + 3 for RGBLed5 ( 2+2+4+3+3 = 14)
+4.)Elaborated design shows the dataflow and logic of the program whereas the Synthesized design shows the actual links created in the hardware
+5.) There were no timing requirements 
